@@ -18,20 +18,23 @@ assert deck1.cards[51].__str__()== "King of Spades"
 assert deck1.printCard(0) == (1, 0)
 print("Assertions for Deck __init__ Passed!!!")
 
-assert deck1.drawCardRank() == (13)
-assert deck1.drawCardRank() != (13)  # Shouldn't be king of spades after previous pop
-print("Assertions for drawCardRank Passed")
+assert deck1.cardsLeft() == 52
+temp = deck1.drawCard()
+assert deck1.cardsLeft() == 51
+temp = deck1.drawCard()
+# print("num cards left is: ", deck1.cardsLeft())
+assert deck1.cardsLeft() == 50
+print("Assertions for cardsLeft passed")
+
+deck1 = Deck()
+assert deck1.drawCard() == (13)
+assert deck1.drawCard() != (13)  # Shouldn't be king of spades after previous pop
+print("Assertions for drawCard Passed")
 
 print("About to shuffle and print deck again . . . ")
+
+# Not running assertions on built in shuffle function
 
 deck1.shuffle()
 for i in range(len(deck1.cards)):
     print("deck1 is: ", deck1.cards[i])
-
-print("drawCardRank returns: ", deck1.drawCardRank())
-var1 = deck1.drawCardRank()
-var2 = deck1.drawCardSuitRank()
-print("Value of drawCardRank is {} and drawCardSuitRank is {}".format(var1, var2))
-
-
-
