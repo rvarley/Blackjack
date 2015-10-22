@@ -1,5 +1,3 @@
-import random
-import itertools  # see islice and link
 
 # Credits - http://www.greenteapress.com/thinkpython/thinkCSpy/html/chap15.html
 # for card and deck classes
@@ -33,6 +31,64 @@ class Card:
     def __str__(self):
         return(self.rankList[self.rank] + " of " +
                self.suitList[self.suit])
+
+    def cmpSort(self, other):
+        """
+        inputs - card object to compare to self
+
+        returns - 
+        1 if suit or rank of self > other
+        -1 if suit or rank of self < other
+        if self suit == other suit, compare by rank
+        if self and other suit and rank are ==, return 0
+
+        This method may be called by the Deck class sort method
+
+        """
+        if self.suit > other.suit: return 1
+        if self.suit < other.suit: return -1
+        # Suits are the same... check ranks
+        if self.rank > other.rank: return 1
+        if self.rank < other.rank: return -1
+        # Ranks are the same... it's a tie
+        return 0
+
+    def cmp(self, other):
+        """
+        inputs - card object to compare to self
+
+        returns -
+        1 if suit or rank of self > other
+        -1 if suit or rank of self < other
+        if self suit == other suit, compare by rank
+        if self and other suit and rank are ==, return 0
+
+        This method will be used for comparison operator overloading
+
+        """
+        if self.rank > other.rank: return 1
+        if self.rank < other.rank: return -1
+        # if self > other: return 1
+        #if self < other: return -1
+        return 0
+
+    def __eq__(self, other):
+        return self.cmp(other) == 0
+
+    def __le__(self, other):
+        return self.cmp(other) <= 0
+
+    def __ge__(self, other):
+        return self.cmp(other) >= 0
+
+    def __gt__(self, other):
+        return self.cmp(other) > 0
+
+    def __lt__(self, other):
+        return self.cmp(other) < 0
+
+    def __ne__(self, other):
+        return self.cmp(other) != 0
 
 if __name__ == '__main__':
    pass 
