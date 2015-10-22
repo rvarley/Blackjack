@@ -18,7 +18,7 @@ class Deck:
     def printCard(self, index):
         """ Input - interger value to index into a deck of cards
 
-            Outputs - Tuple containing rank and suit of card at self.cards[index]
+            Returns - Tuple containing rank and suit of card at self.cards[index]
         """
         return (self.cards[index].rank, self.cards[index].suit)
 
@@ -35,25 +35,34 @@ class Deck:
             j = random.randrange(i, nCards) 
             self.cards[i], self.cards[j] = self.cards[j], self.cards[i] 
 
-    def drawCardRank(self):
-        """ 
+    def drawCard(self):
+        """
         Called when initial 2 cards are dealt and if player or dealer request additional cards
         Arugments - none
 
-        Returns - A card from the top of the deck
-
+        Returns - A card tuple from the top of the deck
         """
         return self.cards.pop().rank
 
+    """ May not need this function
     def drawCardSuitRank(self):
-        """ 
         Called when initial 2 cards are dealt and if player or dealer request additional cards
         Arugments - none
 
-        Returns - A card from the top of the deck
+        Returns - A card tuple of Suit and Rank from the top of the deck
 
+        return self.cards.pop()
         """
-        return self.cards.pop().suit, self.cards.pop().rank
+
+
+    def cardsLeft(self):
+        """
+        Arguments - None.
+        Returns and integer value equal to the number of cards currently in the deck.
+
+        Method can be used to test if the deck is empty prior to calling drawCard.
+        """
+        return len(self.cards)
 
     def sortDeck(self):
         """
@@ -62,6 +71,7 @@ class Deck:
 
         Questions - Why is this necessary?  Does the deck need to be sorted even when it is missing cards?
         """
+
 
 if __name__ == '__main__':
     pass
