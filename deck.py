@@ -42,7 +42,10 @@ class Deck:
 
         Returns - A card tuple from the top of the deck
         """
-        return self.cards.pop().rank
+        card = self.cards.pop().rank
+        if card > 10:
+            card = 10  # converts jack, queen, king values to 10
+        return card
 
     """ May not need this function
     def drawCardSuitRank(self):

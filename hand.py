@@ -17,7 +17,7 @@ class Hand(Deck):
 
     def getCard(self, card):
         """
-        Input - a card attribute in the form card_object.drawCard()
+        Input - a deck attribute in the form card_object.drawCard()
 
         Returns - an list of integers representing card rank
 
@@ -38,3 +38,14 @@ class Hand(Deck):
         """
 
         return sum(self.cards)
+
+    def showHand(self):
+        """
+        Shows the entire cards array for the hand object.
+        Inputs - none
+
+        Outputs - List containing card values
+        """
+        return self.cards
+
+ 
