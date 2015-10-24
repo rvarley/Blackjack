@@ -10,7 +10,7 @@ class Card:
     Cards will be sorted by rank only.
     Rank values are strings 1 - 13.  
     Ace - 1
-    Jack - King are 11 - 13 
+    Jack - King are 11 - 13
 
     Suites are:
     Spades ->   3
@@ -36,7 +36,7 @@ class Card:
         """
         inputs - card object to compare to self
 
-        returns - 
+        returns -
         1 if suit or rank of self > other
         -1 if suit or rank of self < other
         if self suit == other suit, compare by rank
@@ -45,11 +45,15 @@ class Card:
         This method may be called by the Deck class sort method
 
         """
-        if self.suit > other.suit: return 1
-        if self.suit < other.suit: return -1
+        if self.suit > other.suit:
+            return 1
+        if self.suit < other.suit:
+            return -1
         # Suits are the same... check ranks
-        if self.rank > other.rank: return 1
-        if self.rank < other.rank: return -1
+        if self.rank > other.rank:
+            return 1
+        if self.rank < other.rank:
+            return -1
         # Ranks are the same... it's a tie
         return 0
 
@@ -66,10 +70,10 @@ class Card:
         This method will be used for comparison operator overloading
 
         """
-        if self.rank > other.rank: return 1
-        if self.rank < other.rank: return -1
-        # if self > other: return 1
-        #if self < other: return -1
+        if self.rank > other.rank:
+            return 1
+        if self.rank < other.rank:
+            return -1
         return 0
 
     def __eq__(self, other):
@@ -91,4 +95,4 @@ class Card:
         return self.cmp(other) != 0
 
 if __name__ == '__main__':
-   pass 
+    pass

@@ -1,14 +1,13 @@
 
-from card import Card
 from deck import Deck
 
-# Creating a class object instantiates a hand with 2 initial cards.
+# Class object instantiates a hand
 
 
 class Hand(Deck):
 
     def __init__(self):
-        """ cards is an array of integers representing card rank.  
+        """ cards is an array of integers representing card rank.
         Suit isn't needed for blackjack
         A newly instantiated hand object contains an empty list to hold integers representing
         the ranks of cards contained in the hand

@@ -1,26 +1,38 @@
 from deck import Deck
 from hand import Hand
+import os
 
 
 def startGame(d_hand, p_hand, deck1):
     """
-    Deal initial 2 cards caller
+    Deal initial 2 cards to dealer and player
+
+    Arguments - dealer and player hand objects, deck object
+
+    Returns - Nothing
     """
-    for i in range(2):
+    NUM_CARDS = 2
+
+    for i in range(NUM_CARDS):
         d_hand.getCard(deck1.drawCard())
         p_hand.getCard(deck1.drawCard())
-    
 
 
 def hitMe(hand, deck):
     """
-    Get another card
+    Move another card from the deck object to the hand object.
     Inputs - hand and deck objects
 
-    Returns -  nothing
+    Returns - True if deck has cards left.  False if deck has no cards left.
+
+    Side effects - Card removed from deck object and added to hand object.
 
     """
+    if deck.cardsLeft == 0:
+        return False
     hand.getCard(deck.drawCard())
+    return True
+
 
 def stand(p_hand, d_hand):
     """
@@ -28,12 +40,12 @@ def stand(p_hand, d_hand):
 
     Arguments - player and dealer hand objects
 
-    Returns - 'Player Wins', 'Dealer Wins or 'Draw'
+    Returns - String 'Player Wins', 'Dealer Wins or 'Draw'
     """
 
-    PLAYER_WIN = "\n\nPlayer Wins!\n\n\n"
-    DEALER_WIN = "\n\nDealer Wins!\n\n\n"
-    DRAW = "\n\nGame a draw\n\n\n"
+    PLAYER_WIN = "Player Wins!\n\n\n"
+    DEALER_WIN = "Dealer Wins!\n\n\n"
+    DRAW = "Game a draw\n\n\n"
     MAX = 22
 
     # Tie Game
@@ -61,12 +73,22 @@ def stand(p_hand, d_hand):
         return DEALER_WIN
 
 
-def bust():
+def displayHands(p_hand, d_hand):
     """
-    End the game because your hand exceeds 21
-    If dealer and player both exceed 21, neither wins
+    Displays cards and sum of cards in player and dealer hands.
+
+    Arguments:  player and dealer hand objects
+
+    Returns: Nothing
+
+    Prints a formatted string showing player hand and score and dealer hand and score.
     """
-    pass
+    os.system('clear')  # Call to OS clear the screen to clean up output
+    print("\nPlayer hand: ", p_hand.showHand())
+    print("Player score: ", p_hand.handSum())
+
+    print("\nDealer hand: ", d_hand.showHand())
+    print("Dealer score: ", d_hand.handSum())
 
 
 def evalHand(hand):
@@ -79,13 +101,16 @@ def evalHand(hand):
     Returns - hand score
 
     """
-    print("value of hand in evalHand function is: ", hand.cards)
-
-    if (21 - hand.handSum() >= 10) and (1 in hand.cards):
-        for i, elem in enumerate(hand.cards):
-            hand.cards(hand.cards.index(1)) == 11  # Change the first ace from value 1
-                                                   # to value 11
-    # return hand
+    # os.system("clear")
+    #print("dealer hand before evalHand is: ", hand.showHand())
+    if (1 in hand.cards) and (21 - hand.handSum() >= 10):
+        print("found a 1 value Ace in the hand")
+        hand.cards[hand.cards.index(1)] = 11  # Change the first ace from value 1
+                                              # to value 11
+    if (11 in hand.cards) and (hand.handSum() >= 22):
+        print("found an 11 value Ace in the hand and sum > 21")
+        hand.cards[hand.cards.index(11)] = 1  # Change the first ace from value 1
+                                              # to value 11
 
 
 def main():
@@ -99,36 +124,44 @@ def main():
     dealerHand = Hand()
     playerHand = Hand()
 
-
     startGame(dealerHand, playerHand, deck1)
-    print("dealerHand:  {}.  playerHand: {}  ".format(dealerHand.handSum(),
-          playerHand.handSum()))
-    print("At start, dealer hand contains: ", dealerHand.showHand())
-    print("At start, player hand contains: ", playerHand.showHand())
     while dealerHand.handSum() < 16:
-        hitMe(dealerHand, deck1)
         evalHand(dealerHand)
-    
-    print("Dealer hand before the call to evalHand is: ", dealerHand.showHand())
+        hitMe(dealerHand, deck1)
+        # print("dealer hand after evalHand is: ", dealerHand.showHand())
+    if dealerHand.handSum() > 21:
+        os.system("clear")
+        displayHands(playerHand, dealerHand)
+        print("Dealer sum exceeded 21."
+              " Dealer hand {}.  Dealer sum {}.  Player wins!!".format(dealerHand.handSum(), dealerHand.showHand()))
+        return
+
+    displayHands(playerHand, dealerHand)
     evalHand(dealerHand)
-    print("dealerHand after call to evalHand is: ", dealerHand.showHand())
 
     """
         if dealerHand.handSum() > 21:
         game_status = stand(playerHand, dealerHand)
         print("Game status is: ", game_status)
     """
-    print("Your hand score is: ", playerHand.handSum())
-    ans = input("Do you want another card (y or n)?")
+    # print("\nYour hand score is: ", playerHand.handSum())
+    displayHands(playerHand, dealerHand)
+    ans = input("\nDo you want another card (y or n)? ")
 
     while ans == 'y':
         hitMe(playerHand, deck1)
         evalHand(playerHand)
-        print("Your hand score is: ", playerHand.handSum())
+        displayHands(playerHand, dealerHand)
+        if playerHand.handSum() > 21:
+            os.system("clear")
+            displayHands(playerHand, dealerHand)
+            print("Player exceeded 21.  "
+                "Player hand {}. Dealer sum {}.  Dealer wins!!".format(playerHand.showHand(), playerHand.handSum()))
+            return
         ans = input("Do you want another card (y or n)?")
 
-    result = stand(playerHand, dealerHand)
-    print("Game outcome is:  ", result)
+    displayHands(playerHand, dealerHand)
+    print("\nGame outcome is:  ", stand(playerHand, dealerHand))
 
 if __name__ == "__main__":
     main()
